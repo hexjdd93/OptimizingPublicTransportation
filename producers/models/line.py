@@ -15,7 +15,7 @@ class Line:
     colors = IntEnum("colors", "blue green red", start=0)
     num_directions = 2
 
-    def __init__(self, color, station_data, num_trains=10):
+    def __init__(self, color, station_data, num_trains=3):
         self.color = color
         self.num_trains = num_trains
         self.stations = self._build_line_data(station_data)

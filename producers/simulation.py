@@ -51,32 +51,38 @@ class TimeSimulation:
 
         self.train_lines = [
             Line(Line.colors.blue, self.raw_df[self.raw_df["blue"]]),
-            Line(Line.colors.red, self.raw_df[self.raw_df["red"]]),
-            Line(Line.colors.green, self.raw_df[self.raw_df["green"]]),
+            # Line(Line.colors.red, self.raw_df[self.raw_df["red"]]),
+            # Line(Line.colors.green, self.raw_df[self.raw_df["green"]]),
         ]
 
     def run(self):
         curr_time = datetime.datetime.utcnow().replace(
             hour=0, minute=0, second=0, microsecond=0
         )
-        logger.info("Beginning simulation, press Ctrl+C to exit at any time")
-        logger.info("loading kafka connect jdbc source connector")
+        print("Beginning simulation, press Ctrl+C to exit at any time")
+        print("loading kafka connect jdbc source connector")
         configure_connector()
-
-        logger.info("beginning cta train simulation")
+        print("beginning cta train simulation")
         weather = Weather(curr_time.month)
+        count = 0
         try:
-            while True:
-                logger.debug("simulation running: %s", curr_time.isoformat())
+            while count <= 10:
+                count += 1
+
+                print("simulation running: %s", curr_time.isoformat())
                 # Send weather on the top of the hour
                 if curr_time.minute == 0:
                     weather.run(curr_time.month)
                 _ = [line.run(curr_time, self.time_step) for line in self.train_lines]
                 curr_time = curr_time + self.time_step
                 time.sleep(self.sleep_seconds)
-        except KeyboardInterrupt as e:
-            logger.info("Shutting down")
+        # except KeyboardInterrupt as e:
+        except Exception as e:
+            print(f"****Shutting down {e}")
             _ = [line.close() for line in self.train_lines]
+            raise(e)
+
+        _ = [line.close() for line in self.train_lines]
 
 
 if __name__ == "__main__":
