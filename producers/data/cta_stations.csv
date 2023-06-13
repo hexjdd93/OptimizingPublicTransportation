@@ -52,3 +52,4 @@ stop_id,direction_id,stop_name,station_name,station_descriptive_name,station_id,
 30057,W,Ashland/63rd (Terminal arrival),Ashland/63rd,Ashland/63rd (Green Line),40290,27,FALSE,FALSE,TRUE
 30042,E,Western (Forest Pk Branch) (O'Hare-bound),Western/Forest Pk Branch,Western (Blue Line - Forest Park Branch),40220,25,FALSE,TRUE,FALSE
 30043,W,Western (Forest Pk Branch) (Forest Pk-bound),Western/Forest Pk Branch,Western (Blue Line - Forest Park Branch),40220,25,FALSE,TRUE,FALSE
+30004,W,Harlem (Terminal arrival),Harlem/Lake,Harlem/Lake (Green Line),40020,0,FALSE,FALSE,TRUE

@@ -1,11 +1,7 @@
 """Defines trends calculations for stations"""
 import logging
-
 import faust
-
-
 logger = logging.getLogger(__name__)
-
 
 # Faust will ingest records from Kafka in this format
 class Station(faust.Record):
@@ -29,7 +25,7 @@ class TransformedStation(faust.Record):
     line: str
 
 app = faust.App("stations-stream", broker="kafka://localhost:9092", store="memory://")
-topic = app.topic("station_connect", value_type=Station)
+topic = app.topic("project1_stations", value_type=Station)
 out_topic = app.topic("station_output",value_type=TransformedStation, partitions=1)
 
 table = app.Table(
@@ -42,6 +38,8 @@ table = app.Table(
 
 @app.agent(topic)
 async def transformLine(stations):
+    print("init transformLine")
+    
     async for station in stations:
         line = ""
         if station.red:
@@ -59,8 +57,9 @@ async def transformLine(stations):
 
 @app.agent(out_topic)
 async def updateTable(transformeds):
-    logger.info("writing to table...")
+    print("writing to table...")
     async for station in transformeds:
+        print(f"---{station}")
         table[station.station_id] = station
 
 if __name__ == "__main__":
