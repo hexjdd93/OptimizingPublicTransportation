@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 KSQL_URL = "http://localhost:8088"
 
 KSQL_STATEMENT = """
-CREATE TABLE turnstile (
+CREATE TABLE turnstile_table_ksql (
     station_id INTEGER,
     station_name VARCHAR,
     line VARCHAR,
@@ -25,7 +25,7 @@ CREATE TABLE turnstile (
 CREATE TABLE turnstile_summary
     WITH (VALUE_FORMAT='JSON') AS
         SELECT station_id,station_name,COUNT(station_id) AS COUNT 
-        FROM turnstile 
+        FROM turnstile_table_ksql 
         GROUP BY (station_id,station_name);
 """
 

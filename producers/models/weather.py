@@ -68,7 +68,7 @@ class Weather(Producer):
 
         resp = requests.post(
            f"{Weather.rest_proxy_url}/topics/{self.topic_name}",
-           headers={"Content-Type": "application/vnd.kafka.json.v2+json"},
+           headers={"Content-Type": "application/vnd.kafka.avro.v2+json"},
            data=json.dumps(
                {
                    "key_schema": json.dumps(self.key_schema),
@@ -78,7 +78,7 @@ class Weather(Producer):
                             "key": {"timestamp": self.time_millis()},
                             "value": {
                                 "temperature": self.temp,
-                                "status": self.status,
+                                "status": self.status.name,
                             },
                         }
                     ],

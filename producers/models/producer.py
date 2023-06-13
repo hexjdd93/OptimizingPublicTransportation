@@ -32,7 +32,7 @@ class Producer:
         self.num_replicas = num_replicas
         self.broker_properties = {
             "bootstrap.servers": "PLAINTEXT://localhost:9092",
-            "schema.registry.url": "http://localhost:8081/",
+            "schema.registry.url": "http://localhost:8081",
         }
 
         if self.topic_name not in Producer.existing_topics:

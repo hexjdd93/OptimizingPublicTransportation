@@ -1,5 +1,7 @@
 """Contains functionality related to Weather"""
 import logging
+import json 
+
 
 logger = logging.getLogger(__name__)
 
@@ -13,5 +15,6 @@ class Weather:
 
     def process_message(self, message):
         """Handles incoming weather data"""
-        self.temperature = message.temperature
-        self.status = message.status
+        data = message.value()
+        self.temperature = data['temperature']
+        self.status = data['status']

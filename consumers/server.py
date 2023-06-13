@@ -46,7 +46,7 @@ def run_server():
             "Ensure that the KSQL Command has run successfully before running the web server!"
         )
         exit(1)
-    if topic_check.topic_exists("station_table") is False:
+    if topic_check.topic_exists("station_output") is False:
         logger.fatal(
             "Ensure that Faust Streaming is running successfully before running the web server!"
         )
@@ -68,7 +68,7 @@ def run_server():
             offset_earliest=True,
         ),
         KafkaConsumer(
-            "station_table",
+            "station_output",
             lines.process_message,
             offset_earliest=True,
             is_avro=False,
@@ -95,7 +95,7 @@ def run_server():
 
         tornado.ioloop.IOLoop.current().start()
     except KeyboardInterrupt as e:
-        logger.info("shutting down server")
+        print("shutting down server")
         tornado.ioloop.IOLoop.current().stop()
         for consumer in consumers:
             consumer.close()
